@@ -57,7 +57,6 @@ class ClientsApi(FastAPI):
             client = _auth(request)
             print(client)
 
-
         @self.get('/decrease')
         def decrease(amount: int):
             pass

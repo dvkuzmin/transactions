@@ -17,4 +17,3 @@ class ClientsRepo(ABC):
     @abstractmethod
     def add(self, client: Client):
         ...
-
