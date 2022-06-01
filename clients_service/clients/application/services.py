@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from .intefaces import ClientsRepo
 from .DTO import ClientDTO, ClientLoginDto
-from .entities import Client, Balance, Queue
+from .entities import Client, Balance, Transaction
 import hashlib
 
 
@@ -12,13 +12,11 @@ class Clients:
     def register(self, client: ClientDTO):
         client.psw = hashlib.sha256(client.psw.encode()).hexdigest()
         balance = Balance()
-        queue = Queue()
         client = Client(
             name=client.name,
             email=client.email,
             psw=client.psw,
-            balance=balance,
-            queue=queue
+            balance=balance
         )
         self.clients_repo.add(client)
         return client
@@ -38,3 +36,13 @@ class Clients:
         client = self.clients_repo.get_by_email(email)
         if client:
             return client
+
+    def add_unresolved_transaction(self, client_id: int, amount: int, method: str):
+        client = self.clients_repo.get_by_id(client_id)
+        transaction = Transaction(
+            status='unresolved',
+            amount=amount,
+            method=method,
+            client=client
+        )
+        self.clients_repo.add_transaction(transaction)

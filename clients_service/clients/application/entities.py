@@ -12,7 +12,7 @@ class Client:
     psw: str
     date: datetime = None
     balance: Balance = None
-    queue: Queue = None
+    transactions: list[Transaction] = field(default_factory=list)
 
 
 @dataclass
@@ -23,15 +23,9 @@ class Balance:
 
 
 @dataclass
-class Queue:
-    id: int = field(init=False)
-    client: Client = None
-    transactions: list[Transaction] = field(default_factory=list)
-
-
-@dataclass
 class Transaction:
     id: int = field(init=False)
-    status: str
-    amount: int
-    queue: Queue = None
+    status: str = None
+    amount: int = None
+    method: str = None
+    client: Client = None

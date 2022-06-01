@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from .entities import Client
+from .entities import Client, Transaction
 
 
 class ClientsRepo(ABC):
@@ -16,4 +16,8 @@ class ClientsRepo(ABC):
 
     @abstractmethod
     def add(self, client: Client):
+        ...
+
+    @abstractmethod
+    def add_transaction(self, transaction: Transaction):
         ...

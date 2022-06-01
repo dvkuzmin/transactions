@@ -4,7 +4,7 @@ from datetime import datetime
 metadata = MetaData()
 
 clients = Table(
-    'transactions',
+    'clients',
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('name', String, nullable=False),
@@ -18,21 +18,16 @@ balances = Table(
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('amount', Float, default=0),
-    Column('client_id', Integer, ForeignKey('transactions.id'))
+    Column('client_id', Integer, ForeignKey('clients.id'))
 )
 
-queues = Table(
-    'queues',
-    metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('client_id', Integer, ForeignKey('transactions.id')),
-)
 
 transactions = Table(
     'transactions',
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('status', String),
+    Column('method', String),
     Column('amount', Integer),
-    Column('queue_id', Integer, ForeignKey('queues.id')),
+    Column('client_id', Integer, ForeignKey('clients.id')),
 )

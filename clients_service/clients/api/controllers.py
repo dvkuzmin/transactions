@@ -55,8 +55,32 @@ class ClientsApi(FastAPI):
         @self.get('/increase')
         def increase(amount: int, request: Request):
             client = _auth(request)
-            print(client)
+            params = {'amount': amount, 'method': 'increase', 'client_id': client.id}
+            try:
+                requests.get("http://transaction_client:8001/hello", params=params)
+                return JSONResponse(content="Your balance was increased")
+            except:
+                self.clients_service.add_unresolved_transaction(
+                    client_id=client.id,
+                    amount=amount,
+                    method='increase'
+                )
+                return JSONResponse(content="Service is not available, your transactions has been saved")
+
+
 
         @self.get('/decrease')
-        def decrease(amount: int):
-            pass
+        def decrease(amount: int, request: Request):
+            client = _auth(request)
+            params = {'amount': amount, 'method': 'decrease', 'client_id': client.id}
+            try:
+                requests.get("http://transaction_client:8001/hello", params=params)
+                return JSONResponse(content="Your balance was increased")
+            except:
+                self.clients_service.add_unresolved_transaction(
+                    client_id=client.id,
+                    amount=amount,
+                    method='decrease'
+                )
+                return JSONResponse(content="Service is not available, your transactions has been saved")
+
