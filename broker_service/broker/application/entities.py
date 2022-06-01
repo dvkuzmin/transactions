@@ -6,21 +6,19 @@ from datetime import datetime
 
 @dataclass
 class Client:
-    id: int = field(init=False)
     name: str
     email: str
     psw: str
+    id: int = None
     date: datetime = None
     balance: Balance = None
-    queue: Queue = None
 
 
 @dataclass
 class Balance:
-    id: int = field(init=False)
+    id: int = None
     amount: float = 0
     client: Client = None
-
 
 @dataclass
 class Queue:

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from .intefaces import ClientsRepo
 from .DTO import ClientDTO, ClientLoginDto
-from .entities import Client, Balance
+from .entities import Client, Balance, Queue
 import hashlib
 
 
@@ -12,7 +12,14 @@ class Clients:
     def register(self, client: ClientDTO):
         client.psw = hashlib.sha256(client.psw.encode()).hexdigest()
         balance = Balance()
-        client = Client(name=client.name, email=client.email, psw=client.psw, balance=balance)
+        queue = Queue()
+        client = Client(
+            name=client.name,
+            email=client.email,
+            psw=client.psw,
+            balance=balance,
+            queue=queue
+        )
         self.clients_repo.add(client)
         return client
 
@@ -26,3 +33,8 @@ class Clients:
                 raise ValueError('password don\'t match with email')
         else:
             raise ValueError('no such email')
+
+    def get_by_email(self, email: str):
+        client = self.clients_repo.get_by_email(email)
+        if client:
+            return client

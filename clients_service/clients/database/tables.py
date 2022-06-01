@@ -20,3 +20,19 @@ balances = Table(
     Column('amount', Float, default=0),
     Column('client_id', Integer, ForeignKey('clients.id'))
 )
+
+queues = Table(
+    'queues',
+    metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('client_id', Integer, ForeignKey('clients.id')),
+)
+
+transactions = Table(
+    'transactions',
+    metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('status', String),
+    Column('amount', Integer),
+    Column('queue_id', Integer, ForeignKey('queues.id')),
+)
