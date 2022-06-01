@@ -14,8 +14,11 @@ class BalancesRepo(intefaces.BalancesRepo):
         return balance
 
     def add(self, balance: entities.Balance):
-        self.session.add(balance)
-        self.session.commit()
+        try:
+            self.session.add(balance)
+            self.session.commit()
+        except:
+            self.session.rollback()
 
 
 @dataclass
@@ -23,9 +26,16 @@ class TransactionsRepo(intefaces.TransactionsRepo):
     session: Session
 
     def add(self, transaction: entities.Transaction):
-        self.session.add(transaction)
-        self.session.commit()
+        try:
+            self.session.add(transaction)
+            self.session.commit()
+        except:
+            self.session.rollback()
 
     def get_unresolved(self) -> Optional[List[entities.Transaction]]:
-        transactions = self.session.query(entities.Transaction).filter(entities.Transaction.status == 'await').all()
+        transactions = self.session.query(entities.Transaction).filter(entities.Transaction.status == 'unresloved').all()
         return transactions
+
+    def get_client_by_id(self, client_id: int) -> Optional[entities.Client]:
+        client = self.session.query(entities.Client).filter(entities.Client.id == client_id).one_or_none()
+        return client

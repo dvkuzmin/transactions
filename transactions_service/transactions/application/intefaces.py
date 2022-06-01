@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 
-from .entities import Transaction, Balance
+from .entities import Transaction, Balance, Client
 
 
 class BalancesRepo(ABC):
@@ -21,4 +21,8 @@ class TransactionsRepo(ABC):
 
     @abstractmethod
     def get_unresolved(self) -> Optional[List[Transaction]]:
+        ...
+
+    @abstractmethod
+    def get_client_by_id(self, client_id: int) -> Optional[Client]:
         ...

@@ -55,7 +55,7 @@ class ClientsApi(FastAPI):
         @self.get('/increase')
         def increase(amount: int, request: Request):
             client = _auth(request)
-            params = {'amount': amount, 'method': 'increase', 'client_id': client.id}
+            params = {'amount': amount, 'client_id': client.id}
             try:
                 requests.get("http://transaction_client:8001/hello", params=params)
                 return JSONResponse(content="Your balance was increased")
@@ -72,7 +72,7 @@ class ClientsApi(FastAPI):
         @self.get('/decrease')
         def decrease(amount: int, request: Request):
             client = _auth(request)
-            params = {'amount': amount, 'method': 'decrease', 'client_id': client.id}
+            params = {'amount': amount, 'client_id': client.id}
             try:
                 requests.get("http://transaction_client:8001/hello", params=params)
                 return JSONResponse(content="Your balance was increased")
