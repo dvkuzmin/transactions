@@ -56,8 +56,8 @@ class ClientsApi(FastAPI):
             client = _auth(request)
             params = {'amount': amount, 'client_id': client.id}
             try:
-                # requests.get("http://transaction_service:8001/increase", params=params)
-                requests.get("http://localhost:8003/increase", params=params)
+                requests.get("http://transaction_service:8001/increase", params=params)
+                # requests.get("http://localhost:8003/increase", params=params)
                 self.clients_service.add_transaction(
                     client_id=client.id,
                     amount=amount,
@@ -79,15 +79,15 @@ class ClientsApi(FastAPI):
             client = _auth(request)
             params = {'amount': amount, 'client_id': client.id}
             try:
-                # requests.get("http://transaction_service:8001/decrease", params=params)
-                requests.get("http://localhost:8003/decrease", params=params)
+                res = requests.get("http://transaction_service:8001/decrease", params=params)
+                # requests.get("http://localhost:8003/decrease", params=params)
                 self.clients_service.add_transaction(
                     client_id=client.id,
                     amount=amount,
                     method='decrease',
                     status='resolved'
                 )
-                return JSONResponse(content="Your balance was increased")
+                return JSONResponse(content=res.text)
             except:
                 self.clients_service.add_transaction(
                     client_id=client.id,
@@ -95,4 +95,10 @@ class ClientsApi(FastAPI):
                     method='decrease',
                     status='unresolved'
                 )
-                return JSONResponse(content="Service is not available, your transactions has been saved")
+                return JSONResponse(content="Service not available")
+
+        @self.get('/balance')
+        def balance(request: Request):
+            client = _auth(request)
+            content = f'Your balance is {client.balance.amount}'
+            return JSONResponse(content=content)

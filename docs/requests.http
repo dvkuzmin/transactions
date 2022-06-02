@@ -1,0 +1,33 @@
+### Send POST request for register client
+POST http://localhost:8000/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@admin.ru",
+  "name": "Admin",
+  "psw": "qwerty",
+  "psw_repeat": "qwerty"
+}
+
+### Send POST request for login client
+POST http://localhost:8000/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@admin.ru",
+  "psw": "qwerty"
+}
+
+### Send GET request to increase balance
+GET http://localhost:8000/increase?amount=100
+Accept: application/json
+
+### Send GET request to decrease balance
+GET http://localhost:8000/decrease?amount=50
+Accept: application/json
+
+### Send GET request to show balance
+GET http://localhost:8000/balance
+Accept: application/json

@@ -4,7 +4,7 @@ from pydantic import BaseSettings
 
 
 user = os.getenv('DB_USER', 'test_user')
-password = os.getenv('DB_PASSWORD', 'qwerty')
+password = os.getenv('DB_PASSWORD', 'mysecretpassword')
 host = os.getenv('DB_HOST', 'localhost')
 port = os.getenv('DB_PORT', '5432')
 database = os.getenv('DB_DATABASE', 'test_db')

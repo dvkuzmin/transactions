@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from transactions.application import services
+from fastapi.responses import JSONResponse
 
 
 class TransactionsApi(FastAPI):
@@ -13,4 +14,5 @@ class TransactionsApi(FastAPI):
 
         @self.get('/decrease')
         def decrease(client_id: int, amount: int):
-            self.balances_service.decrease_balance(client_id, amount)
+            result = self.balances_service.decrease_balance(client_id, amount)
+            return JSONResponse(content=result)
