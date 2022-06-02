@@ -72,7 +72,7 @@ class ClientsApi(FastAPI):
                     method='increase',
                     status='unresolved'
                 )
-                return JSONResponse(content="Service is not available, your transactions has been saved")
+                return JSONResponse(content="Service is not available, your transaction has been saved")
 
         @self.get('/decrease')
         def decrease(amount: int, request: Request):
@@ -95,7 +95,7 @@ class ClientsApi(FastAPI):
                     method='decrease',
                     status='unresolved'
                 )
-                return JSONResponse(content="Service not available")
+                return JSONResponse(content="Service not available, your transaction has been saved")
 
         @self.get('/balance')
         def balance(request: Request):
