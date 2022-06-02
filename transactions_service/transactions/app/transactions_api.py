@@ -11,16 +11,19 @@ class Settings:
 
 class DB:
     engine = create_engine(Settings.db.DB_URL)
+    engine.connect()
     session_local = database.SessionLocal(engine)
     balances_repo = database.repositories.BalancesRepo(session_local.session)
     transactions_repo = database.repositories.TransactionsRepo(session_local.session)
 
 
 class Application:
-    balances = services.Balances(
+    balances_services = services.Balances(
         balances_repo=DB.balances_repo,
         transactions_repo=DB.transactions_repo
     )
 
 
-app = api.ClientsApi(Application.balances)
+Application.balances_services.handle_transactions()
+
+app = api.TransactionsApi(Application.balances_services)

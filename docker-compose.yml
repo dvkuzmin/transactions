@@ -25,7 +25,7 @@ services:
     container_name: transaction_service
     command: uvicorn --host 0.0.0.0 --port 8001 transactions_api:app --reload
     ports:
-      - "8001:8000"
+      - "8001:8001"
     restart: on-failure
     environment:
       - DB_USER=${DB_USER}
@@ -39,8 +39,8 @@ services:
       - db
   db:
     image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
     restart: on-failure
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

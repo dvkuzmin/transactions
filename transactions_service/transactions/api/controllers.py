@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from transactions.application import services
 
 
-class ClientsApi(FastAPI):
+class TransactionsApi(FastAPI):
     def __init__(self, balances_service: services.Balances):
-        super(ClientsApi, self).__init__()
+        super(TransactionsApi, self).__init__()
         self.balances_service = balances_service
 
         @self.get('/increase')
