@@ -57,13 +57,20 @@ class ClientsApi(FastAPI):
             params = {'amount': amount, 'client_id': client.id}
             try:
                 # requests.get("http://transaction_service:8001/increase", params=params)
-                requests.get("http://localhost:8001/increase", params=params)
-                return JSONResponse(content="Your balance was increased")
-            except:
-                self.clients_service.add_unresolved_transaction(
+                requests.get("http://localhost:8003/increase", params=params)
+                self.clients_service.add_transaction(
                     client_id=client.id,
                     amount=amount,
-                    method='increase'
+                    method='increase',
+                    status='resolved'
+                )
+                return JSONResponse(content="Your balance was increased")
+            except:
+                self.clients_service.add_transaction(
+                    client_id=client.id,
+                    amount=amount,
+                    method='increase',
+                    status='unresolved'
                 )
                 return JSONResponse(content="Service is not available, your transactions has been saved")
 
@@ -73,12 +80,19 @@ class ClientsApi(FastAPI):
             params = {'amount': amount, 'client_id': client.id}
             try:
                 # requests.get("http://transaction_service:8001/decrease", params=params)
-                requests.get("http://localhost:8001/decrease", params=params)
-                return JSONResponse(content="Your balance was increased")
-            except:
-                self.clients_service.add_unresolved_transaction(
+                requests.get("http://localhost:8003/decrease", params=params)
+                self.clients_service.add_transaction(
                     client_id=client.id,
                     amount=amount,
-                    method='decrease'
+                    method='decrease',
+                    status='resolved'
+                )
+                return JSONResponse(content="Your balance was increased")
+            except:
+                self.clients_service.add_transaction(
+                    client_id=client.id,
+                    amount=amount,
+                    method='decrease',
+                    status='unresolved'
                 )
                 return JSONResponse(content="Service is not available, your transactions has been saved")

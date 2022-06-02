@@ -1,28 +1,26 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 
-from .entities import Transaction, Balance, Client
-
 
 class BalancesRepo(ABC):
     @abstractmethod
-    def get_by_client_id(self, client_id: int) -> Balance:
+    def get_by_client_id(self, client_id: int) -> tuple:
         ...
 
     @abstractmethod
-    def add(self, balance: Balance):
+    def update(self, client_id: int, amount: int):
         ...
 
 
 class TransactionsRepo(ABC):
     @abstractmethod
-    def add(self, transaction: Transaction):
+    def update(self, client_id: int):
         ...
 
     @abstractmethod
-    def get_unresolved(self) -> Optional[List[Transaction]]:
+    def get_unresolved(self) -> Optional[List[tuple]]:
         ...
 
     @abstractmethod
-    def get_client_by_id(self, client_id: int) -> Optional[Client]:
+    def get_client_by_id(self, client_id: int) -> Optional[tuple]:
         ...

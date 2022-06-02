@@ -11,7 +11,7 @@ class Settings:
 
 class DB:
     engine = create_engine(Settings.db.DB_URL)
-    engine.connect()
+    # engine.connect()
     session_local = database.SessionLocal(engine)
     balances_repo = database.repositories.BalancesRepo(session_local.session)
     transactions_repo = database.repositories.TransactionsRepo(session_local.session)

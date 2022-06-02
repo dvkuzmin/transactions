@@ -37,10 +37,10 @@ class Clients:
         if client:
             return client
 
-    def add_unresolved_transaction(self, client_id: int, amount: int, method: str):
+    def add_transaction(self, client_id: int, amount: int, method: str, status: str):
         client = self.clients_repo.get_by_id(client_id)
         transaction = Transaction(
-            status='unresolved',
+            status=status,
             amount=amount,
             method=method,
             client=client
