@@ -32,4 +32,3 @@ class ClientsRepo(intefaces.ClientsRepo):
         except:
             self.session.rollback()
             raise ValueError('Error in adding to database')
-

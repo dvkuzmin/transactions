@@ -6,4 +6,4 @@ WORKDIR /app
 
 RUN pip install --no-cache-dir -e .
 
-WORKDIR /app/clients/app
+WORKDIR /app/transactions/app

@@ -34,7 +34,6 @@ class ClientsApi(FastAPI):
         @self.post('/register')
         def register(client_data: DTO.ClientDTO):
             new_client = clients_service.register(client_data)
-            # res = requests.get("http://transaction_client:8001/hello")
             content = {"message": f'User with {new_client.id=} was registered!'}
             return JSONResponse(content=content)
 
@@ -57,7 +56,7 @@ class ClientsApi(FastAPI):
             client = _auth(request)
             params = {'amount': amount, 'client_id': client.id}
             try:
-                requests.get("http://transaction_client:8001/hello", params=params)
+                requests.get("http://transaction_service:8001/increase", params=params)
                 return JSONResponse(content="Your balance was increased")
             except:
                 self.clients_service.add_unresolved_transaction(
@@ -67,14 +66,12 @@ class ClientsApi(FastAPI):
                 )
                 return JSONResponse(content="Service is not available, your transactions has been saved")
 
-
-
         @self.get('/decrease')
         def decrease(amount: int, request: Request):
             client = _auth(request)
             params = {'amount': amount, 'client_id': client.id}
             try:
-                requests.get("http://transaction_client:8001/hello", params=params)
+                requests.get("http://transaction_service:8001/decrease", params=params)
                 return JSONResponse(content="Your balance was increased")
             except:
                 self.clients_service.add_unresolved_transaction(
