@@ -24,6 +24,6 @@ class Application:
     )
 
 
-# Application.balances_services.handle_transactions()
+Application.balances_services.handle_transactions()
 
 app = api.TransactionsApi(Application.balances_services)
