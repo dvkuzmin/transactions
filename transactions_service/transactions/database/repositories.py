@@ -36,14 +36,15 @@ class TransactionsRepo(intefaces.TransactionsRepo):
         self.session.execute(update_transaction)
         self.session.commit()
 
-    def get_unresolved(self) -> Optional[List[entities.Transaction]]:
+    def get_unresolved(self) -> Optional[List[tuple]]:
         # transactions = self.session.query(entities.Transaction).filter(entities.Transaction.status == 'unresloved').all()
         selection = select(transactions).where(transactions.c.status == 'unresolved')
+        print('here')
         result = self.session.execute(selection).all()
         print(result)
         return result
 
-    def get_client_by_id(self, client_id: int) -> Optional[entities.Client]:
+    def get_client_by_id(self, client_id: int) -> Optional[tuple]:
         # client = self.session.query(entities.Client).filter(entities.Client.id == client_id).one_or_none()
         selection = select(clients).where(clients.c.id == client_id)
         result = self.session.execute(selection).one()

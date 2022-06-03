@@ -3,6 +3,7 @@ from .intefaces import ClientsRepo
 from .DTO import ClientDTO, ClientLoginDto
 from .entities import Client, Balance, Transaction
 import hashlib
+from fastapi import HTTPException
 
 
 @dataclass
@@ -28,9 +29,9 @@ class Clients:
             if client.psw == client_data.psw:
                 return client
             else:
-                raise ValueError('password don\'t match with email')
+                raise HTTPException(status_code=403, detail='password don\'t match with email')
         else:
-            raise ValueError('no such email')
+            raise HTTPException(status_code=403, detail='no such email')
 
     def get_by_email(self, email: str):
         client = self.clients_repo.get_by_email(email)

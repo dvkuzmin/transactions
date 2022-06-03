@@ -1,4 +1,5 @@
 from typing import Optional
+from fastapi import HTTPException
 
 from clients.application import intefaces, entities
 from dataclasses import dataclass
@@ -15,7 +16,7 @@ class ClientsRepo(intefaces.ClientsRepo):
             self.session.commit()
         except:
             self.session.rollback()
-            raise ValueError('Error in adding to database')
+            raise HTTPException(status_code=500, detail='Error in adding to database')
 
     def get_by_email(self, email: str) -> Optional[entities.Client]:
         client = self.session.query(entities.Client).filter(entities.Client.email == email).one_or_none()
@@ -31,4 +32,4 @@ class ClientsRepo(intefaces.ClientsRepo):
             self.session.commit()
         except:
             self.session.rollback()
-            raise ValueError('Error in adding to database')
+            raise HTTPException(status_code=500, detail='Error in adding to database')

@@ -1,5 +1,5 @@
 import requests
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 from clients.application import services, DTO
 import jwt
@@ -18,18 +18,19 @@ class ClientsApi(FastAPI):
                 method, token = request.headers['Authorization'].split()
                 if method in ('Bearer', 'JWT'):
                     data = jwt.decode(token, SECRET, algorithms=['HS256'])
+                    print(data)
                     if data['email']:
                         client = self.clients_service.get_by_email(data['email'])
                         if client:
                             return client
                         else:
-                            raise ValueError
+                            raise HTTPException(status_code=404, detail="No such user")
                     else:
-                        raise ValueError
+                        raise HTTPException(status_code=404, detail="Bad token")
                 else:
-                    raise ValueError
+                    raise HTTPException(status_code=404, detail="Bad token")
             else:
-                raise ValueError
+                raise HTTPException(status_code=401, detail="Unauthorized")
 
         @self.post('/register')
         def register(client_data: DTO.ClientDTO):
@@ -54,6 +55,7 @@ class ClientsApi(FastAPI):
         @self.get('/increase')
         def increase(amount: int, request: Request):
             client = _auth(request)
+            print(client)
             params = {'amount': amount, 'client_id': client.id}
             try:
                 requests.get("http://transaction_service:8001/increase", params=params)
